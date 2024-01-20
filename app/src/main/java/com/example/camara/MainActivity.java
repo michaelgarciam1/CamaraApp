@@ -47,9 +47,10 @@ public class MainActivity extends AppCompatActivity {
         btnFolder.setOnClickListener(v -> {
             openFolder();
         });
+        imageView = findViewById(R.id.imageView);
 
         btnCamara = findViewById(R.id.bt_camara);
-        imageView = findViewById(R.id.imageView);
+
 
 
         btnCamara.setOnClickListener(v -> {
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         String fileName = "IMG_" + timeStamp + ".jpg";
 
         // Guardar la imagen en la carpeta de la galería
-        String galleryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Camera";
+        String galleryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/MyAppImages";
         File galleryFolder = new File(galleryPath);
 
         if (!galleryFolder.exists()) {
@@ -99,52 +100,12 @@ public class MainActivity extends AppCompatActivity {
             // Escanear el archivo para que aparezca en la galería
             MediaScannerConnection.scanFile(this, new String[]{imageFile.getAbsolutePath()}, null, null);
 
-            Toast.makeText(this, "Imagen guardada en la galería", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Imagen guardada en documentos", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
         }}
 
-//    private void handlePhotoTaken(Intent data) {
-//        if (data != null) {
-//            Bundle extras = data.getExtras();
-//            if (extras != null) {
-//                Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                if (imageBitmap != null) {
-//                    imageView.setImageBitmap(imageBitmap);
-//                    saveImageToStorage(imageBitmap);
-//                }
-//            }
-//        }
-//    }
-
-//    private void saveImageToStorage(Bitmap imageBitmap) {
-//        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString();
-//        File myDir = new File(root + "/MyAppImages");
-//
-//        if (!myDir.exists()) {
-//            myDir.mkdirs();
-//        }
-//        String time = java.text.DateFormat.getTimeInstance().format(new java.util.Date());
-//        String fileName = "image" + time + ".png";
-//        File file = new File(myDir, fileName);
-//
-//        try {
-//            FileOutputStream out = new FileOutputStream(file);
-//            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-//            out.flush();
-//            out.close();
-//            index++;
-//
-//            // Actualizar la galería para que la imagen sea visible
-//            MediaScannerConnection.scanFile(this, new String[]{file.toString()}, null, null);
-//
-//            Toast.makeText(this, "Imagen guardada en Documents", Toast.LENGTH_SHORT).show();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     private void captureImage() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -160,13 +121,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/MyAppImages");
         intent.setDataAndType(uri, "*/*");
-
         // Abre el selector de archivos
         startActivity(Intent.createChooser(intent, "Open Folder"));
     }
-
-
-
-
-
 }
